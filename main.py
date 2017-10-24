@@ -1,13 +1,6 @@
-import kivy
 from kivy.app import App
-from kivy.uix.label import Label
-from kivy.uix.gridlayout import GridLayout
-from kivy.uix.textinput import TextInput
-from kivy.uix.image import Image
-from kivy.uix.button import Button
 from kivy.lang import Builder
 from kivy.uix.screenmanager import ScreenManager, Screen
-from kivy.uix.anchorlayout import AnchorLayout
 
 class InitializationScreen(Screen):
     pass
@@ -35,10 +28,6 @@ Builder.load_string("""
             size: self.width, self.height
             Image:
                 source: 'sprout.png'
-                y: self.parent.y
-                x: self.parent.x
-                size: 750, 550
-                allow_stretch: True
         Label:
             text: 'Test'
             font_size: 55
