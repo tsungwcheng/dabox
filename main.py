@@ -1,6 +1,10 @@
 from kivy.app import App
 from kivy.lang import Builder
+from kivy.core.window import Window
+from kivy.config import Config
+
 from kivy.uix.screenmanager import ScreenManager, Screen
+
 
 class InitializationScreen(Screen):
     pass
@@ -22,34 +26,109 @@ class ExecScreen(Screen):
 
 Builder.load_string("""
 <SplashScreen>:
-    AnchorLayout:
+
+    FloatLayout:
+        size:500,300
+        canvas.before:
+            Color:
+                rgba: 0,0,0.5,0.3
+            Rectangle:
+                pos: 0,0
+                size:self.size
         Button:
+            size_hint:(0.2,0.2)
             on_press: root.manager.current = "main"
-            size: self.width, self.height
             Image:
                 source: 'sprout.png'
+                size: 400,240
+                pos:50,0
+
+                halign : 'center'
+                valign : 'center'
+                allow_stretch: True
         Label:
+            size_hint: (0.15,0.15)
             text: 'Test'
-            font_size: 55
+            text_size: self.size
+            pos:250,150
+            halign : 'center'
+            valign : 'center'
+            font_size: 20
             bold: 1
             color: [0,0.9,0.2,1]
 
 <MenuScreen>:
-    GridLayout:
-        cols: 3
+    FloatLayout:
+        size: 500, 300
+        canvas.before:
+            Color:
+                rgba:0.65,0.65,0.65,1
+            Rectangle:
+                pos: 0,0
+                size:self.size
+            Color:
+                rgba:1,1,1,1
+            Rectangle:
+                pos:240,0
+                size:self.size
         Button:
+            size_hint:(.15,.15)
+            pos: (500,320)
             id: main
-            text:'Start Grow'
+            text:'Update Watering Time'
             on_press:
-                root.manager.transition.direction= 'right'
-                root.manager.current= 'initprocess'
-        Button:
-            id: sysinfo
-            text: 'System Information'
-            on_press: root.manager.current= 'sysinfo'
+                wateringtime.text = '2:00'
+                #root.manager.transition.direction= 'right'
+                #root.manager.current= 'initprocess'
+        Label:
+            pos: (60, 20)
+            size_hint:(.15,.15)
+            font_size: 35
+            markup: True
+            text: '[b]Temperature'
+
+        Label:
+            pos: (220, 20)
+            size_hint:(.15,.15)
+            font_size: 35
+            markup: True
+            id: tempval
+            text: '45'
+
+        Label:
+            pos:(60,150)
+            size_hint:(.15,.15)
+            font_size: 35
+            markup: True
+            text: '[b]Humidity'
+
+        Label:
+            pos:(220,150)
+            size_hint:(.15,.15)
+            font_size: 35
+            markup: True
+            id: humidityval
+            text: 'sowet'
+
+        Label:
+            pos:(60,280)
+            size_hint:(.15,.15)
+            font_size: 35
+            markup: True
+            text: '[b]Water in:'
+
+        Label:
+            pos:(220,280)
+            size_hint:(.15,.15)
+            font_size: 35
+            markup: True
+            id: wateringtime
+            text: '1:55'
+
 
 <SystemInfo>:
     GridLayout:
+        size: 480, 320
         cols:4
         rows:2
         Label:
@@ -63,6 +142,7 @@ Builder.load_string("""
 
 <InitializationScreen>:
     GridLayout:
+        size: 480, 320
         rows: 2
         cols: 2
         Label:
@@ -118,5 +198,7 @@ class MyApp(App):
         return sm
 
 if __name__ == '__main__':
+    Config.set('graphics', 'resizable', 0)
+    Window.size = (500, 300)
     MyApp().run()
 
